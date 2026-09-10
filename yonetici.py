@@ -46,3 +46,43 @@ class Yonetici:
         self.ogrenciler.append(yeni_ogrenci)
         self.veri_kaydet()
         return True, "Öğrenci başarıyla eklendi."
+
+    def ogrenci_sil(self, ogrenci_no):
+        """Numarasına göre öğrenciyi sistemden siler."""
+        for o in self.ogrenciler:
+            if o.ogrenci_no == str(ogrenci_no):
+                self.ogrenciler.remove(o)
+                self.veri_kaydet()
+                return True, "Öğrenci başarıyla silindi."
+        return False, "Öğrenci bulunamadı."
+
+    def ogrenci_ara(self, arama_metni):
+        """Soyada veya numaraya göre arama yapar."""
+        metin = str(arama_metni).strip().upper()
+        sonuclar = [
+            o for o in self.ogrenciler 
+            if metin in o.soyad or metin in o.ogrenci_no
+        ]
+        return sonuclar
+
+    def harf_notuna_gore_filtrele(self, harf_notu):
+        """Belirtilen harf notuna sahip öğrencileri filtreler."""
+        harf = str(harf_notu).strip().upper()
+        return [o for o in self.ogrenciler if o.harf_notu == harf]
+
+    def genel_rapor(self):
+        """Sistemdeki genel durumu raporlar (Özet ekranı)."""
+        toplam = len(self.ogrenciler)
+        if toplam == 0:
+            return {"toplam": 0, "gecen": 0, "kalan": 0, "ort": 0.0}
+
+        gecenler = sum(1 for o in self.ogrenciler if o.durum_bilgisi() == "Geçti")
+        kalanlar = toplam - gecenler
+        genel_ortalama = round(sum(o.ortalama for o in self.ogrenciler) / toplam, 2)
+
+        return {
+            "toplam": toplam,
+            "gecen": gecenler,
+            "kalan": kalanlar,
+            "ort": genel_ortalama
+        }
