@@ -1,10 +1,10 @@
 # ogrenci.py
 
-class Ogrenci:
+class ogrenci:
     """Öğrenci bilgilerini ve not hesaplama mantığını tutan varlık sınıfı."""
     
-    def __init__(self, ogr_no, ad, soyad, vize=0.0, final=0.0):
-        self.ogr_no = str(ogr_no)
+    def __init__(self, ogrenci_no, ad, soyad, vize=0.0, final=0.0):
+        self.ogrenci_no = str(ogrenci_no)
         self.ad = str(ad).strip().title()
         self.soyad = str(soyad).strip().upper()
         self.vize = float(vize)
@@ -18,14 +18,14 @@ class Ogrenci:
 
     def harf_notu_hesapla(self):
         """Hesaplanan ortalamaya göre harf notunu belirler."""
-        ort = self.ortalama
-        if 90 <= ort <= 100:
+        ortalama = self.ortalama
+        if 90 <= ortalama <= 100:
             return "A"
-        elif 80 <= ort < 90:
+        elif 80 <= ortalama < 90:
             return "B"
-        elif 70 <= ort < 80:
+        elif 70 <= ortalama < 80:
             return "C"
-        elif 60 <= ort < 70:
+        elif 60 <= ortalama < 70:
             return "D"
         else:
             return "F"
@@ -37,7 +37,7 @@ class Ogrenci:
     def to_dict(self):
         """Sınıf verisini JSON dosyasına kaydetmek üzere sözlüğe dönüştürür."""
         return {
-            "ogr_no": self.ogr_no,
+            "ogrenci_no": self.ogrenci_no,
             "ad": self.ad,
             "soyad": self.soyad,
             "vize": self.vize,
@@ -48,15 +48,17 @@ class Ogrenci:
 
     @classmethod
     def from_dict(cls, data):
-        """Sözlük verisinden Ogrenci nesnesi oluşturur."""
-        ogrenci = cls(
-            ogr_no=data["ogr_no"],
+        """Sözlük verisinden ogrenci nesnesi oluşturur."""
+        ogrenci_nesnesi = cls(
+            ogrenci_no=data["ogrenci_no"],
             ad=data["ad"],
             soyad=data["soyad"],
             vize=data["vize"],
             final=data["final"]
         )
-        return ogrenci
+        return ogrenci_nesnesi
 
     def __str__(self):
-        return f"[{self.ogr_no}] {self.ad} {self.soyad} | Vize: {self.vize} | Final: {self.final} | Ort: {self.ortalama} | Harf: {self.harf_notu} ({self.durum_bilgisi()})"
+        return f"[{self.ogrenci_no}] {self.ad} {self.soyad} | Vize: {self.vize} | Final: {self.final} | Ort: {self.ortalama} | Harf: {self.harf_notu} ({self.durum_bilgisi()})"
+    
+   
